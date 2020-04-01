@@ -1,22 +1,50 @@
 <template>
-<div class="page">
-  <div class="navbar">
-    <div class="navbar-bg"></div>
-    <div class="navbar-inner sliding">
-      <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
-        </a>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="button popup-open" data-popup=".popup-about">
+            <i class="icon f7-icons  ">line_horizontal_3</i>
+          </a>
+
+        </div>
+        <div class="title" >English+</div>
+
       </div>
-      <div class="title" >Title</div>
-
     </div>
-  </div>
-  <div class="page-content">
+    <div class="page-content">
 
+      <div class="popup popup-about">
+        <div class="block">
+          <!-- Close Popup -->
+          <p><a class="link popup-close" href="#">Cerrar</a></p>
+
+          <div class="list links-list">
+            <ul>
+              <li><a href="#">Lecciones</a></li>
+              <li><a href="#">Acerda de</a></li>
+              <li><a href="#">Info</a></li>
+            </ul>
+          </div>
+          <div class="list">
+            <ul>
+              <li>
+                <a href="#" class="item-link list-button">Salir</a>
+              </li>
+              
+            </ul>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ...
+    
+
+    
 
   </div>
-</div>
 </template>
 
 <script>
