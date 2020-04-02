@@ -13,7 +13,7 @@
       </div>
       <div class="page-content">
         <div class="block block-title-medium">Verbo</div>
-          <form class="list no-hairlines-md" id="agregarVerbos">
+          <form class="list no-hairlines-md" id="editarVerbos">
             <ul>
               <li class="item-content item-input">
                 <div class="item-media">
@@ -22,7 +22,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Español</div>
                   <div class="item-input-wrap">
-                    <input type="text" placeholder="Verbo en español" name="espanol">
+                    <input type="text" value="{{$route.params.espanol}}" name="espanol">
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Present simple</div>
                   <div class="item-input-wrap">
-                    <input type="text" placeholder="Verbo en present simple" name="present">
+                    <input type="text" value="{{$route.params.present}}" name="present">
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Past simple</div>
                   <div class="item-input-wrap">
-                    <input type="text" placeholder="Verbo en past simple" name="past">
+                    <input type="text" value="{{$route.params.past}}" name="past">
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
@@ -60,14 +60,14 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Present simple</div>
                   <div class="item-input-wrap">
-                    <input type="text" placeholder="Verbo en past participle" name="participle">
+                    <input type="text" value="{{$route.params.participle}}" name="participle">
                     <span class="input-clear-button"></span>
                   </div>
                 </div>
               </li>
             </ul>
           </form>    
-          <a href="#" class="button" @click="guardar">Agregar verbo</a>
+          <a href="#" class="button" @click="editarVerbos">Agregar verbo</a>
       </div>
     </div>
     </template>
@@ -75,32 +75,29 @@
     <script>
       return {
         methods:{
-              guardar:function(){
-                    var datos = app.form.convertToData('#agregarVerbos');
-                    var formData = {
-                     espanol:'',
-                     present:'', 
-                     past: '',
-                     participle: ''
-                    }
-                   db1.collection("verbos").add({
-                        espanol: datos.espanol,
-                        present: datos.present,
-                        past:datos.past,
-                        participle:datos.participle
-                    })
-                    .then(function(docRef) {
-                        console.log("Document written with ID: ", docRef.id);
-                        app.dialog.alert("","Guardado con exito");
+          
+         editarVerbos: function(){
+          var f7 = this;
+          var app = f7.$app;
+          var datos =app.form.convertToData('#editarVerbos');
+          var id=f7.$route.params.id;
+          console.log(id)
+          app.dialog.preloader("Actualizando")
+          db1.collection('verbos').doc(id).update({
+            
+            espanol: datos.espanol,
+            present: datos.present,
+            past:datos.past,
+            participle:datos.participle
 
-                    })
-
-                    
-                    .catch(function(error) {
-                        console.error("Error: ", error);
-                    });
-
-              }
+          }).then (()=>{
+            app.dialog.close();
+            app.dialog.alert("Actualizando", "Guardado")
+          }).catch(error => {
+            app.dialog.close()
+            app.dialog.alert('Error al actualizar ${error}', "Error")
+          });
+        }
         },
       };
     </script>
