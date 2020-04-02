@@ -74,7 +74,7 @@
           var datos = app.form.convertToData('#login');
           firebase.auth(conexion1).signInWithEmailAndPassword(datos.username, datos.password)
           .then(function(){
-            mainView.router.navigate('/principalU/');
+            mainView.router.navigate('/principal/');
             app.dialog.close();
           })
           .catch(function(error) {

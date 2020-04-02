@@ -4,7 +4,7 @@
       <div class="navbar-bg"></div>
       <div class="navbar-inner sliding">
         <div class="left">
-          <a href="/adjetivos/" class="link back" >
+          <a href="/verbos/" class="link back" >
             <i class="icon icon-back"></i>
           </a>
         </div>
@@ -12,8 +12,8 @@
       </div>
     </div>
     <div class="page-content">
-      <div class="block block-title-medium">Adjetivo</div>
-      <form class="list no-hairlines-md" id="editarAdjetivos">
+      <div class="block block-title-medium">Pronombre</div>
+      <form class="list no-hairlines-md" id="agregarPronombres">
         <ul>
           <li class="item-content item-input">
             <div class="item-media">
@@ -22,7 +22,7 @@
            <div class="item-inner">
             <div class="item-title item-label">Español</div>
             <div class="item-input-wrap">
-              <input type="text" value="{{$route.params.espanol}}" name="espanol">
+              <input type="text" placeholder="Pronombre en español" name="espanol">
               <span class="input-clear-button"></span>
             </div>
           </div>
@@ -34,7 +34,7 @@
          <div class="item-inner">
           <div class="item-title item-label">English</div>
           <div class="item-input-wrap">
-            <input type="text" value="{{$route.params.english}}" name="english">
+            <input type="text" placeholder="Pronoun in English" name="english">
             <span class="input-clear-button"></span>
           </div>
         </div>
@@ -42,7 +42,7 @@
 
     </ul>
   </form>    
-  <a href="#" class="button" @click="editarAdjetivos">Editar adjetivo</a>
+  <a href="#" class="button" @click="guardar">Agregar pronombre</a>
 </div>
 </div>
 </template>
@@ -50,26 +50,30 @@
 <script>
   return {
     methods:{
-          
-         editarAdjetivos: function(){
-          var f7 = this;
-          var app = f7.$app;
-          var datos =app.form.convertToData('#editarAdjetivos');
-          var id=f7.$route.params.id;
-          console.log(id)
-          app.dialog.preloader("Actualizando")
-          db1.collection('adjetivos').doc(id).update({
-            
-            espanol: datos.espanol,
-            english: datos.english
-          }).then (()=>{
-            app.dialog.close();
-            app.dialog.alert("Actualizando", "Guardado")
-          }).catch(error => {
-            app.dialog.close()
-            app.dialog.alert('Error al actualizar ${error}', "Error")
-          });
-        }
-        },
+      guardar:function(){
+        var datos = app.form.convertToData('#agregarPronombres');
+        var formData = {
+         espanol:'',
+
+         english: ''
+       }
+       db1.collection("pronombres").add({
+        espanol: datos.espanol,
+
+        english:datos.english
+      })
+       .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        app.dialog.alert("","Guardado con exito");
+
+      })
+
+
+       .catch(function(error) {
+        console.error("Error: ", error);
+      });
+
+     }
+   },
  };
 </script>

@@ -53,8 +53,29 @@ routes = [
     },
   },
    {
-    path: '/editarAdjetivos/:id/:espanol/:present/:past/:participle/',
+    path: '/editarAdjetivos/:id/:espanol/:english/',
     componentUrl: './pages/admin/editarAdjetivos.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
+  {
+    path: '/pronombres/',
+    componentUrl: './pages/admin/pronombres.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
+  {
+    path: '/agregarPronombres/',
+    componentUrl: './pages/admin/agregarPronombres.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
+   {
+    path: '/editarPronombres/:id/:espanol/:english/',
+    componentUrl: './pages/admin/editarPronombres.html',
     options: {
       transition: 'f7-parallax',
     },

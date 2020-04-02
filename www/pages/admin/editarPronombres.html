@@ -8,12 +8,12 @@
             <i class="icon icon-back"></i>
           </a>
         </div>
-        <div class="title" >Nuevo adjetivo</div>    
+        <div class="title" >Nuevo pronombre</div>    
       </div>
     </div>
     <div class="page-content">
-      <div class="block block-title-medium">Adjetivo</div>
-      <form class="list no-hairlines-md" id="editarAdjetivos">
+      <div class="block block-title-medium">Pronombres</div>
+      <form class="list no-hairlines-md" id="editarPronombres">
         <ul>
           <li class="item-content item-input">
             <div class="item-media">
@@ -42,7 +42,7 @@
 
     </ul>
   </form>    
-  <a href="#" class="button" @click="editarAdjetivos">Editar adjetivo</a>
+  <a href="#" class="button" @click="editarPronombres">Editar pronombre</a>
 </div>
 </div>
 </template>
@@ -51,14 +51,14 @@
   return {
     methods:{
           
-         editarAdjetivos: function(){
+         editarPronombres: function(){
           var f7 = this;
           var app = f7.$app;
-          var datos =app.form.convertToData('#editarAdjetivos');
+          var datos =app.form.convertToData('#editarPronombres');
           var id=f7.$route.params.id;
           console.log(id)
           app.dialog.preloader("Actualizando")
-          db1.collection('adjetivos').doc(id).update({
+          db1.collection('pronombres').doc(id).update({
             
             espanol: datos.espanol,
             english: datos.english

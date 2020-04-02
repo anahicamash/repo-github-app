@@ -1,0 +1,120 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/inicio/" class="link back">
+            <i class="icon icon-back"></i>
+          </a>
+
+
+        </div>
+        <div class="title">Pronombres</div>
+        <div class="right">
+          <a href="/agregarPronombres/" class="link"><i class="icon f7-icons">plus</i></a>
+        </div>
+      </div>
+    </div>
+    <div class="page-content">
+
+
+      <div class="data-table card">
+        <table>
+          <thead>
+            <tr>
+
+              <th class="numeric-cell">Español</th>
+              <th class="numeric-cell">English</th>
+             
+              <th></th>
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {{#each pronombres}}
+
+            <tr id="{{id}}">
+
+              <td class="numeric-cell">{{espanol}}</td>
+              <td class="numeric-cell">{{english}}</td>
+            
+              
+              <td class="numeric-cell"><a href="/editarPronombres/{{id}}/{{espanol}}/{{english}}/" ><i class="icon f7-icons">pencil</i></a></td>
+              <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-red">trash_circle</i></a></td>
+            </tr>
+
+
+            {{/each}}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    data: function () {
+      return {
+       pronombres:[], 
+     }
+   },
+   methods: {
+    eliminar:function(id){
+
+      app.dialog.create({
+        title: 'Eliminar',
+        text: '¿Desea Eliminar el registro?',
+        buttons: [
+        {
+          text: 'si',
+          onClick:function(){
+                                //aqui la consulta de eliminar
+                                app.dialog.preloader('Eliminando pronombre');
+                                db1.collection("pronombres").doc(id).delete().then(function() {
+                                  console.log("Pronombre eliminado");
+                                  app.dialog.close();
+
+                                  $$("#"+id+"").remove();
+                                }).catch(function(error) {
+                                  console.error("Error removing document: ", error);
+                                });
+                              }
+                            },
+                            {
+                              text: 'no',
+                            },
+                            ],
+                          }).open(); 
+
+    }
+  },
+  on: {
+    pageInit: function () {
+      var self = this;
+      let _Pronombres = [];
+      db1
+      .collection("pronombres")
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            _Pronombres.push({
+                              id:doc.id,
+                              espanol:doc.data().espanol,
+                              english:doc.data().english
+
+                            })
+                            self.$setState({
+                              pronombres:_Pronombres
+                            })
+                          });
+      });
+
+    }
+  }
+};
+</script>
