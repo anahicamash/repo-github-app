@@ -1,11 +1,18 @@
 routes = [
   {
     path: '/',
-    componentUrl: './pages/admin/inicio.html',
+    componentUrl: './pages/registro.html',
   },
   {
     path: '/login/',
     componentUrl: './pages/login.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
+  {
+    path: '/registro/',
+    componentUrl: './pages/registro.html',
     options: {
       transition: 'f7-parallax',
     },

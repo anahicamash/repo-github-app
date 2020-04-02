@@ -62,29 +62,36 @@
           }
         },
         methods:{
+          inicio: function() {
+                var app = this.$app;
+                var data = app.form.convertToData('#login');
+                app.dialog.preloader("Iniciando Sesión", "multi");
+                //consulta de firebase authentication con correo
+                firebase
+                    .auth(conexion1)
+                    .signInWithEmailAndPassword(data.username, data.password)
+                    .then(data => {
+                        localStorage.setItem("login", true);
+                        app.dialog.close();
+                        app.views.main.router.navigate("/principal/", {
+                            clearPreviousHistory: true
+                        });
+                    })
+                    .catch(function(error) {
+                        app.dialog.close();
+                        app.dialog.alert('Verifique sus datos o verifique si tiene acceso a internet', 'Inicio de sesión fallido')
+                            // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        console.log(errorCode)
+                            // ...
+                        console.log(errorMessage);
+                    });
+            }
 
  
 
- 
-
-        inicio: function()
-        {
-          var self=this;
-          app.dialog.preloader("Iniciando sesión");
-          var datos = app.form.convertToData('#login');
-          firebase.auth(conexion1).signInWithEmailAndPassword(datos.username, datos.password)
-          .then(function(){
-            mainView.router.navigate('/principal/');
-            app.dialog.close();
-          })
-          .catch(function(error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // ...
-          });
-            
-        }  
+  
         },
         on: {
           pageInit: function () {
