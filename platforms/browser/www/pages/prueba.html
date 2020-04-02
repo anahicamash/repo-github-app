@@ -58,47 +58,51 @@
       return {
         data: function () {
           return {
-    
+
           }
         },
         methods:{
           inicio: function() {
-                var app = this.$app;
-                var data = app.form.convertToData('#login');
-                app.dialog.preloader("Iniciando Sesión", "multi");
-                //consulta de firebase authentication con correo
-                firebase
-                    .auth(conexion1)
-                    .signInWithEmailAndPassword(data.username, data.password)
-                    .then(data => {
-                        localStorage.setItem("login", true);
-                        app.dialog.close();
-                        app.views.main.router.navigate("/principal/", {
-                            clearPreviousHistory: true
+
+
+            app.dialog.preloader('Iniciando Sesión')
+            var datos = app.form.convertToData('#login')
+            var username=datos.username;
+            var password=datos.password;
+            db1.collection("users").where("email", "==", username).where("password", "==", password)
+                    .get()
+                    .then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                          
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            debugger;
+                            if(doc.data().email=="anahicamash@gmail.coma" && doc.data().password=="anahicamash"  ){
+                              app.dialog.close();
+                              mainView.router.navigate('/principal/')
+                          }else {
+                            app.dialog.close();
+                              mainView.router.navigate('/principalU/')
+                          }
+                          
                         });
                     })
-                    .catch(function(error) {
-                        app.dialog.close();
-                        app.dialog.alert('Verifique sus datos o verifique si tiene acceso a internet', 'Inicio de sesión fallido')
-                            // Handle Errors here.
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        console.log(errorCode)
-                            // ...
-                        console.log(errorMessage);
-                    });
-            }
 
- 
 
-  
+            .catch(function(error) {
+              app.dialog.close();
+              app.dialog.alert('Verifique sus datos o verifique si tiene acceso a internet', 'Inicio de sesión fallido')
+              console.log("Error getting documents: ", error);
+            });
+
+          }
         },
         on: {
           pageInit: function () {
-    
-    
-    
-    
+
+
+
+
           },
         },
       };

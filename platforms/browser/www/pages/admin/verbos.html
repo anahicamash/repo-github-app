@@ -1,0 +1,126 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/inicio/" class="link back">
+            <i class="icon icon-back"></i>
+          </a>
+
+
+        </div>
+        <div class="title">Verbos</div>
+        <div class="right">
+          <a href="/agregarVerbos/" class="link"><i class="icon f7-icons">plus</i></a>
+        </div>
+      </div>
+    </div>
+    <div class="page-content">
+
+
+      <div class="data-table card">
+        <table>
+          <thead>
+            <tr>
+
+              <th class="numeric-cell">Español</th>
+              <th class="numeric-cell">Present simple</th>
+              <th class="numeric-cell">Past simple</th>
+              <th class="numeric-cell">Past participle</th>
+
+              <th></th>
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {{#each verbos}}
+
+            <tr id="{{id}}">
+
+              <td class="numeric-cell">{{espanol}}</td>
+              <td class="numeric-cell">{{present}}</td>
+              <td class="numeric-cell">{{past}}</td>
+              <td class="numeric-cell">{{participle}}</td>
+              
+              <td class="numeric-cell"><a href="/editarVerbos/{{id}}/{{espanol}}/{{present}}/{{past}}/{{participle}}/" ><i class="icon f7-icons color-theme-pink ">pencil</i></a></td>
+              <td class="numeric-cell"><a href="#" class="link" @click="eliminar('{{id}}')" ><i class="icon f7-icons text-color-pink">trash_circle</i></a></td>
+            </tr>
+
+
+            {{/each}}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    data: function () {
+      return {
+       verbos:[], 
+     }
+   },
+   methods: {
+    eliminar:function(id){
+
+      app.dialog.create({
+        title: 'Eliminar',
+        text: '¿Desea Eliminar el registro?',
+        buttons: [
+        {
+          text: 'si',
+          onClick:function(){
+                                //aqui la consulta de eliminar
+                                app.dialog.preloader('Eliminando verbo');
+                                db1.collection("verbos").doc(id).delete().then(function() {
+                                  console.log("Verbo eliminado");
+                                  app.dialog.close();
+
+                                  $$("#"+id+"").remove();
+                                }).catch(function(error) {
+                                  console.error("Error removing document: ", error);
+                                });
+                              }
+                            },
+                            {
+                              text: 'no',
+                            },
+                            ],
+                          }).open(); 
+
+    }
+  },
+  on: {
+    pageInit: function () {
+      var self = this;
+      let _verbos = [];
+      db1
+      .collection("verbos")
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            _verbos.push({
+                              id:doc.id,
+                              espanol:doc.data().espanol,
+                              present:doc.data().present,
+                              past:doc.data().past,
+
+                              participle:doc.data().participle
+
+                            })
+                            self.$setState({
+                              verbos:_verbos
+                            })
+                          });
+      });
+
+    }
+  }
+};
+</script>
