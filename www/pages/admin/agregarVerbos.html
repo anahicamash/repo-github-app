@@ -1,0 +1,107 @@
+<template>
+    <div class="page">
+      <div class="navbar">
+        <div class="navbar-bg"></div>
+        <div class="navbar-inner sliding">
+          <div class="left">
+            <a href="/verbos/" class="link back" >
+              <i class="icon icon-back"></i>
+            </a>
+          </div>
+          <div class="title" >Nuevo verbo</div>    
+        </div>
+      </div>
+      <div class="page-content">
+        <div class="block block-title-medium">Verbo</div>
+          <form class="list no-hairlines-md" id="agregarVerbos">
+            <ul>
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">bold_italic_underline</i> <!--  -->
+                </div>                
+                <div class="item-inner">
+                  <div class="item-title item-label">Español</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Verbo en español" name="espanol">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>              
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">bold_italic_underline</i> <!--  -->
+                </div>                
+                <div class="item-inner">
+                  <div class="item-title item-label">Present simple</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Verbo en present simple" name="present">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">bold_italic_underline</i> <!--  -->
+                </div>                
+                <div class="item-inner">
+                  <div class="item-title item-label">Past simple</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Verbo en past simple" name="past">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+
+              <li class="item-content item-input">
+                <div class="item-media">
+                   <i class="icon f7-icons">bold_italic_underline</i> <!--  -->
+                </div>                
+                <div class="item-inner">
+                  <div class="item-title item-label">Present simple</div>
+                  <div class="item-input-wrap">
+                    <input type="text" placeholder="Verbo en past participle" name="participle">
+                    <span class="input-clear-button"></span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </form>    
+          <a href="#" class="button" @click="guardar">Agregar verbo</a>
+      </div>
+    </div>
+    </template>
+    
+    <script>
+      return {
+        methods:{
+              guardar:function(){
+                    var datos = app.form.convertToData('#agregarVerbos');
+                    var formData = {
+                     espanol:'',
+                     present:'', 
+                     past: '',
+                     participle: ''
+                    }
+                   db1.collection("verbos").add({
+                        espanol: datos.espanol,
+                        present: datos.present,
+                        past:datos.past,
+                        participle:datos.participle
+                    })
+                    .then(function(docRef) {
+                        console.log("Document written with ID: ", docRef.id);
+                        app.dialog.alert("","Guardado con exito");
+
+                    })
+
+                    
+                    .catch(function(error) {
+                        console.error("Error: ", error);
+                    });
+
+              }
+        },
+      };
+    </script>
+    

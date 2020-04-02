@@ -1,0 +1,79 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="/verbos/" class="link back" >
+            <i class="icon icon-back"></i>
+          </a>
+        </div>
+        <div class="title" >Nuevo adjetivo</div>    
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="block block-title-medium">Adjetivo</div>
+      <form class="list no-hairlines-md" id="agregarAdjetivos">
+        <ul>
+          <li class="item-content item-input">
+            <div class="item-media">
+             <i class="icon f7-icons">bold_italic_underline</i> <!--  -->
+           </div>                
+           <div class="item-inner">
+            <div class="item-title item-label">Español</div>
+            <div class="item-input-wrap">
+              <input type="text" placeholder="Adjetivo en español" name="español">
+              <span class="input-clear-button"></span>
+            </div>
+          </div>
+        </li>              
+        <li class="item-content item-input">
+          <div class="item-media">
+           <i class="icon f7-icons">bold_italic_underline</i> <!--  -->
+         </div>                
+         <div class="item-inner">
+          <div class="item-title item-label">English</div>
+          <div class="item-input-wrap">
+            <input type="text" placeholder="Adjetive in English" name="english">
+            <span class="input-clear-button"></span>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </form>    
+  <a href="#" class="button" @click="guardar">Agregar adjetivo</a>
+</div>
+</div>
+</template>
+
+<script>
+  return {
+    methods:{
+      guardar:function(){
+        var datos = app.form.convertToData('#agregarAdjetivos');
+        var formData = {
+         español:'',
+
+         english: ''
+       }
+       db1.collection("adjetivos").add({
+        espanol: datos.espanol,
+
+        english:datos.english
+      })
+       .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        app.dialog.alert("","Guardado con exito");
+
+      })
+
+
+       .catch(function(error) {
+        console.error("Error: ", error);
+      });
+
+     }
+   },
+ };
+</script>
