@@ -1,14 +1,14 @@
 <template>
 <div class="page">
-  <div class="navbar">
-    <div class="navbar-bg"></div>
+  <div class="navbar" >
+    <div class="navbar-bg" style="background-color:rgb(199,148,255,100);"></div>
     <div class="navbar-inner sliding">
       <div class="left">
-        <a href="#" class="link back">
-          <i class="icon icon-back"></i>
+        <a href="/leccionesU/" class="link back">
+          <i class="icon icon-back" style="color:white;"></i>
         </a>
       </div>
-      <div class="title" >Verbos</div>
+      <div class="title" style="color:white;" >Verbos</div>
 
     </div>
 
@@ -18,29 +18,31 @@
       <div class="block-title">Lista de verbos</div>
       <div class="list accordion-list">
         <ul>
+          {{#each verbos}}
           <li class="accordion-item"><a href="#" class="item-content item-link">
             <div class="item-inner">
-              <div class="item-title">Item 1</div>
+              <div class="item-title">{{espanol}}</div>
             </div></a>
-            <div class="accordion-item-content">
-              <div class="block">
-                <p>Item 1 content. Lorem ipsum dolor sit amet...</p>
+            <div class="accordion-item-content ">
+              <div class="block " style="background-color:rgb(199,148,255,100);">
+                <p >{{present}}</p>
+
               </div>
+              <div class="block " style="background-color:rgb(154,135,232,91);">
+               <p>{{past}}</p>
+
+             </div>
+             <div class="block " style="background-color:rgb(160,166,255,100);">
+
+              <p>{{participle}}</p>
             </div>
-          </li>
-          <li class="accordion-item"><a href="#" class="item-content item-link">
-            <div class="item-inner">
-              <div class="item-title">Item 2</div>
-            </div></a>
-            <div class="accordion-item-content">
-              <div class="block">
-                <p>Item 2 content. Lorem ipsum dolor sit amet...</p>
-              </div>
-            </div>
-          </li>
-          
-        </ul>
-      </div>
+          </div>
+        </li>
+        {{/each}}
+
+
+      </ul>
+    </div>
     </div>
   </div>
 </template>
@@ -57,11 +59,31 @@
     },
     on: {
       pageInit: function () {
+      var self = this;
+      let _verbos = [];
+      db1
+      .collection("verbos")
+      .get()
+      .then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc.id, " => ", doc.data());
+                            _verbos.push({
+                              id:doc.id,
+                              espanol:doc.data().espanol,
+                              present:doc.data().present,
+                              past:doc.data().past,
 
+                              participle:doc.data().participle
 
+                            })
+                            self.$setState({
+                              verbos:_verbos
+                            })
+                          });
+      });
 
-
-      },
+    }
     },
   };
 </script>

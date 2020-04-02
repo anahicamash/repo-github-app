@@ -1,12 +1,12 @@
 routes = [
   {
     path: '/',
-    componentUrl: './pages/prueba.html',
+    componentUrl: './pages/usuario/verbosU.html',
   },
 
   {
     path: '/login/',
-    componentUrl: './pages/login.html',
+    componentUrl: './pages/prueba.html',
     options: {
       transition: 'f7-parallax',
     },
@@ -112,6 +112,20 @@ routes = [
   {
     path: '/verbosU/',
     componentUrl: './pages/usuario/verbosU.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
+  {
+    path: '/pronombresU/',
+    componentUrl: './pages/usuario/pronombresU.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
+  {
+    path: '/adjetivosU/',
+    componentUrl: './pages/usuario/adjetivosU.html',
     options: {
       transition: 'f7-parallax',
     },

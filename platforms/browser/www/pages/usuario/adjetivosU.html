@@ -8,34 +8,28 @@
           <i class="icon icon-back" style="color:white;"></i>
         </a>
       </div>
-      <div class="title" style="color:white;" >Verbos</div>
+      <div class="title" style="color:white;" >Adjetivos</div>
 
     </div>
 
     </div>
     <div class="page-content">
 
-      <div class="block-title">Lista de verbos</div>
+      <div class="block-title">Lista de adjetivos</div>
       <div class="list accordion-list">
         <ul>
-          {{#each verbos}}
+          {{#each adjetivos}}
           <li class="accordion-item"><a href="#" class="item-content item-link">
             <div class="item-inner">
               <div class="item-title">{{espanol}}</div>
             </div></a>
             <div class="accordion-item-content ">
-              <div class="block " style="background-color:rgb(199,148,255,100);">
-                <p >{{present}}</p>
-
-              </div>
+              
               <div class="block " style="background-color:rgb(154,135,232,91);">
-               <p>{{past}}</p>
+               <p>{{english}}</p>
 
              </div>
-             <div class="block " style="background-color:rgb(160,166,255,100);">
-
-              <p>{{participle}}</p>
-            </div>
+            
           </div>
         </li>
         {{/each}}
@@ -57,33 +51,30 @@
     methods:{
 
     },
-    on: {
-      pageInit: function () {
+   on: {
+    pageInit: function () {
       var self = this;
-      let _verbos = [];
+      let _Adjetivos = [];
       db1
-      .collection("verbos")
+      .collection("adjetivos")
       .get()
       .then(function (querySnapshot) {
         querySnapshot.forEach(function (doc) {
                             // doc.data() is never undefined for query doc snapshots
                             console.log(doc.id, " => ", doc.data());
-                            _verbos.push({
+                            _Adjetivos.push({
                               id:doc.id,
                               espanol:doc.data().espanol,
-                              present:doc.data().present,
-                              past:doc.data().past,
-
-                              participle:doc.data().participle
+                              english:doc.data().english
 
                             })
                             self.$setState({
-                              verbos:_verbos
+                              adjetivos:_Adjetivos
                             })
                           });
       });
 
     }
-    },
+  }
   };
 </script>
