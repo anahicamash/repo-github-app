@@ -48,13 +48,13 @@
         <div class="item-title item-label">Contraseña</div>
         <div class="item-input-wrap">
           <input type="password" placeholder="Contraseña" name="password">
-          <span class="input-clear-button" @click="registro"></span>
+          <span class="input-clear-button" ></span>
         </div>
       </div>
     </li>
   </ul>
 </form>    
-<a href="#" class="button" >Registrarme</a>
+<a href="#" class="button" @click="registro">Registrarme</a>
 </div>
 </div>
 </template>
@@ -62,13 +62,15 @@
 <script>
   return {
     methods:{
-            registro: function() {
+      registro: function() {
                 var app = this.$app;
                 var alldata = app.form.convertToData('#registro')
                 var dialog = app.dialog.preloader("Creando cuenta", "multi");
 
                 //consulta para crear el usuario y guardar en la base de datos su informacion
-                firebase.auth(conexion1).createUserWithEmailAndPassword(alldata.email, alldata.password)
+                firebase
+                    .auth(conexion1)
+                    .createUserWithEmailAndPassword(alldata.email, alldata.password)
                     .then(data => {
 
                         setTimeout(() => {
@@ -80,6 +82,7 @@
                                 nombre: alldata.nombre,
                                 email: alldata.email,
                                 userUid: data.user.uid
+                            })
                             .then(() => {
                                 setTimeout(() => {
                                     dialog.setTitle("Finalizando");
@@ -107,6 +110,7 @@
 
 
             }
+            
    },
  };
 </script>
