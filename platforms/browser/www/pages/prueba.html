@@ -74,17 +74,21 @@
                     .then(function(querySnapshot) {
                         querySnapshot.forEach(function(doc) {
                           
-                            // doc.data() is never undefined for query doc snapshots
+                            
                             console.log(doc.id, " => ", doc.data());
-                            debugger;
-                            if(doc.data().email=="anahicamash@gmail.coma" && doc.data().password=="anahicamash"  ){
+                            
+                            if(doc.data().tipo=="admin"  ){
                               app.dialog.close();
-                              mainView.router.navigate('/principal/')
-                          }else {
+                             mainView.router.navigate('/principal/',{
+                                clearPreviousHistory: true
+                              })
+                          }else if(doc.data().tipo=="user" ){
                             app.dialog.close();
-                              mainView.router.navigate('/principalU/')
+                              mainView.router.navigate('/principalU/',{
+                                clearPreviousHistory: true
+                              })
                           }
-                          
+                          app.userUid=doc.id
                         });
                     })
 
