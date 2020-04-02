@@ -4,6 +4,13 @@ routes = [
     componentUrl: './pages/admin/inicio.html',
   },
   {
+    path: '/login/',
+    componentUrl: './pages/login.html',
+    options: {
+      transition: 'f7-parallax',
+    },
+  },
+  {
     path: '/principal/',
     componentUrl: './pages/admin/inicio.html',
     options: {
