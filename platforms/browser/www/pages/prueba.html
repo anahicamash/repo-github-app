@@ -63,8 +63,7 @@
         },
         methods:{
           inicio: function() {
-
-
+            var app = this.$app;
             app.dialog.preloader('Iniciando Sesión')
             var datos = app.form.convertToData('#login')
             var username=datos.username;
@@ -78,11 +77,13 @@
                             console.log(doc.id, " => ", doc.data());
                             
                             if(doc.data().tipo=="admin"  ){
+                              localStorage.setItem("login", true);
                               app.dialog.close();
                              mainView.router.navigate('/principal/',{
                                 clearPreviousHistory: true
                               })
                           }else if(doc.data().tipo=="user" ){
+                            localStorage.setItem("login", true);
                             app.dialog.close();
                               mainView.router.navigate('/principalU/',{
                                 clearPreviousHistory: true
@@ -90,19 +91,24 @@
                           }
                           app.userUid=doc.id
                         });
-                    })
+                      })
 
 
-            .catch(function(error) {
-              app.dialog.close();
-              app.dialog.alert('Verifique sus datos o verifique si tiene acceso a internet', 'Inicio de sesión fallido')
-              console.log("Error getting documents: ", error);
-            });
+                    .catch(function(error) {
+                      app.dialog.close();
+                      app.dialog.alert('Verifique sus datos o verifique si tiene acceso a internet', 'Inicio de sesión fallido')
+                     // console.log("Error getting documents: ", error);
+                      var errorCode = error.code;
+                      var errorMessage = error.message;
+                      console.log(errorCode)
+                            // ...
+                            console.log(errorMessage);
+                          });
 
-          }
-        },
-        on: {
-          pageInit: function () {
+                  }
+                },
+                on: {
+                  pageInit: function () {
 
 
 
